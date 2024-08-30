@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Pokedex</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden; /* Prevent scrolling */
+            background-image: url('your-image-url-here.jpg'); /* Replace with your image URL */
+            background-size: cover; /* Ensure the image covers the entire background */
+            background-position: center; /* Center the background image */
+            background-repeat: no-repeat; /* Prevent the image from repeating */
+        }
+
+        .container {
+            max-width: 350px; /* Set maximum width for the container */
+            margin: 0 auto; /* Center the container horizontally */
+            background: rgba(0, 0, 0, 0.8); /* Add a semi-transparent background */
+            background-image: url('https://media.istockphoto.com/id/1218596083/vector/prism-abstract-background.jpg?s=612x612&w=0&k=20&c=vChgruXdWfaAgGBGMSbM1V89CkHYKV3DToe0x8YhKs8=');
+            height: 100%;
+            overflow: auto; 
+        }
+
+        @media only screen and (max-width: 600px) {
+            /* Adjustments for smaller screens */
+            .top-section, .bottom-section {
+                height: 50vh;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            display: none;
+        }
+
+        .pokecards {
+            width: 150px;
+            height: 150px;
+            background-color: rgb(255, 255, 255);
+            column-gap: 10px;
+            border-radius: 10px;
+            position: relative;
+            background: rgba(87, 255, 247, 0.8);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            backdrop-filter: blur(9px);
+            -webkit-backdrop-filter: blur(9px);
+            border-radius: 10px;
+        }
+
+        #default-modal {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 50;
+            visibility: hidden; /* Hidden by default */
+            opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        #default-modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-content {
+            width: 90vw; /* Responsive width */
+            max-width: 500px; /* Set a maximum width for larger screens */
+            max-height: 90vh; /* Responsive height */
+            overflow: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            position: relative;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 0.5rem;
+        }
+
+        .modal-body {
+            padding: 1rem;
+        }
+
+        .close-btn {
+            cursor: pointer;
+            border: none;
+            background: none;
+            font-size: 1.25rem;
+        }
+
+        .navbar {
+            background-color: #343a40;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid #49e8ff;
+        }
+
+        .header {
+            text-align: center;
+            color: #ffffff;
+            font-size: 36px;
+            font-weight: bold;
+            padding: 20px 0;
+            margin-top: 20px;
+            background-color: #6e7882;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-top: 2px solid #49e8ff;
+            border-bottom: 2px solid #49e8ff;
+            position: relative;
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/53/Poké_Ball_icon.svg'); /* Poké Ball image */
+            background-size: 80px; /* Size of the Poké Ball */
+            background-repeat: no-repeat;
+            background-position: left; /* Center the Poké Ball */
+            background-blend-mode: overlay;
+        }
+
+        .header p {
+            margin: 0;
+            z-index: 1;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header"> 
+            <p>Pokedex</p>
+        </div>
+        
+        <div class="pokemoncontainer" style="display: flex; flex-wrap: wrap; max-width: 350px; margin-top: 50px; justify-content: space-between; gap: 10px;">
+         
+              <!-- ice type -->
+              <button onclick="fetchData('glalie')" type="button" class="toggle-modal">
+                <div class="pokecards" style=" background-color: 	#49e8ff; position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                    <img src =" https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F362.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+                    <img src = "https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_14_ice.webp&w=64&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+                    <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Glalie</p>
+              
+                  </div> 
+                </button>
+
+                <button onclick="fetchData('articuno')" type="button" class="toggle-modal">
+                    <div class="pokecards" style="background-color: 	#49e8ff; position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                        <img src =" https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F144.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+                        <img src = "https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_14_ice.webp&w=64&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+                        <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Articuno</p>
+                  
+                      </div> 
+                    </button>
+
+                    <button onclick="fetchData('abomasnow')" type="button" class="toggle-modal">
+                        <div class="pokecards" style=" background-color: 	#49e8ff; position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                            <img src =" https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F460.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+                            <img src = "https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_14_ice.webp&w=64&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+                            <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Abomasnow</p>
+                      
+                          </div> 
+                        </button>
+                       
+ <!--FIRE TYPE -->
+ <button onclick="fetchData('charmander')" type="button" class="toggle-modal">
+    <div class="pokecards" style=" background-image: url('https://static.vecteezy.com/system/resources/thumbnails/006/125/207/small/beautiful-gradient-background-smooth-and-soft-texture-free-vector.jpg') ; relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+        <img src ="https://static.wikia.nocookie.net/friendshipverse/images/5/56/Charmander.png/revision/latest?cb=20221220050349" style = "height: 110px; width: 110px;  ">
+        <img src = " https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_9_fire.webp&w=64&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+        <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Charmander</p>
+      
+      </div> 
+    </button>
+
+    <button onclick="fetchData('charmeleon')" type="button" class="toggle-modal">
+        <div class="pokecards" style="background-image: url('https://static.vecteezy.com/system/resources/thumbnails/006/125/207/small/beautiful-gradient-background-smooth-and-soft-texture-free-vector.jpg'); position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+            <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F005.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+            <img src = " https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_9_fire.webp&w=64&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+            <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Charmeleon</p>
+      
+          </div> 
+        </button>
+    
+
+        <button onclick="fetchData('charizard')" type="button" class="toggle-modal">
+            <div class="pokecards" style="background-image: url('https://static.vecteezy.com/system/resources/thumbnails/006/125/207/small/beautiful-gradient-background-smooth-and-soft-texture-free-vector.jpg'); position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F006.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+                <img src = " https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_9_fire.webp&w=64&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+                <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Charizard</p>
+          
+              </div> 
+            </button>
+
+         
+  <!-- purple -->
+  <button onclick="fetchData('gengar')" type="button" class="toggle-modal">
+    <div class="pokecards" style="background-image: url('https://cdn.prod.website-files.com/5a9ee6416e90d20001b20038/64f5c5940c42dde192f02234_Rectangle%20(37).svg') ; position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+        <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F094.webp&w=384&q=75">
+        <img src = "  https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_3_poison.webp&w=48&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+
+        <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Gengar</p>
+  
+      </div> 
+    </button>
+
+  
+
+    <button onclick="fetchData('haunter')" type="button" class="toggle-modal">
+        <div class="pokecards" style="background-image: url('https://cdn.prod.website-files.com/5a9ee6416e90d20001b20038/64f5c5940c42dde192f02234_Rectangle%20(37).svg') ; position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+            <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F093.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+            <img src = "  https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_3_poison.webp&w=48&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+            <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Haunter</p>
+      
+          </div> 
+        </button>
+
+       
+
+        <button onclick="fetchData('nidoking')" type="button" class="toggle-modal">
+            <div class="pokecards" style="background-image: url('https://cdn.prod.website-files.com/5a9ee6416e90d20001b20038/64f5c5940c42dde192f02234_Rectangle%20(37).svg') ; position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F034.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+                <img src = "  https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_3_poison.webp&w=48&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+                <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Nidoking</p>
+          
+              </div> 
+            </button>
+
+
+       
+
+<!--GRASS -->
+<button onclick="fetchData('caterpie')" type="button" class="toggle-modal">
+    <div class="pokecards" style="background-image: url('https://cdn.prod.website-files.com/5a9ee6416e90d20001b20038/64f5c41d17f515e82dd8ec82_Rectangle%20(20).svg'); position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+        <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F010.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+        <img src = " https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_11_grass.webp&w=48&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+        <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Caterpie</p>
+  
+      </div> 
+    </button>
+
+
+
+    <button onclick="fetchData('bulbasaur')" type="button" class="toggle-modal">
+        <div class="pokecards" style="background-image: url('https://cdn.prod.website-files.com/5a9ee6416e90d20001b20038/64f5c41d17f515e82dd8ec82_Rectangle%20(20).svg');  position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+            <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F001.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+            <img src = " https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_11_grass.webp&w=48&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+            <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Burbasaur</p>
+      
+          </div> 
+        </button>
+
+     
+        <button onclick="fetchData('bellsprout')" type="button" class="toggle-modal">
+            <div class="pokecards" style="background-image: url('https://cdn.prod.website-files.com/5a9ee6416e90d20001b20038/64f5c41d17f515e82dd8ec82_Rectangle%20(20).svg');  position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F069.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+                <img src = " https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_11_grass.webp&w=48&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+                <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Bellsprout</p>
+          
+              </div> 
+            </button>
+
+
+            <button onclick="fetchData('squirtle')" type="button" class="toggle-modal">
+            <div class="pokecards" style="position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F007.webp&w=640&q=75" style = "height: 110px; width: 110px;  ">
+                <img src = "https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_10_water.webp&w=48&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+                <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Squirtle</p>
+          
+              </div> 
+            </button>
+
+            <button onclick="fetchData('wartortle')" type="button" class="toggle-modal">
+                <div class="pokecards" style="position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                    <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F008.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+                    <img src = "https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_10_water.webp&w=48&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+                    <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Wartotle</p>
+              
+                  </div> 
+                </button>
+
+
+                <button onclick="fetchData('blastoise')" type="button" class="toggle-modal">
+                    <div class="pokecards" style="position: relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                        <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F009.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+                        <img src = "https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_10_water.webp&w=48&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+                        <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Blastoise</p>
+                  
+                      </div> 
+                    </button>
+  <!--ELECTRIC POKEMO-->
+               
+                  
+  <button onclick="fetchData('pikachu')" type="button" class="toggle-modal">
+    <div class="pokecards" style="background-image: url('https://img.freepik.com/premium-photo/bright-yellow-gradient-background_7954-25332.jpg'); relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+        <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F025.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+        <img src = "https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_12_electric.webp&w=48&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+        <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Pikachu</p>
+  
+      </div> 
+    </button>
+
+    <button onclick="fetchData('raichu')" type="button" class="toggle-modal">
+        <div class="pokecards" style="background-image: url('https://img.freepik.com/premium-photo/bright-yellow-gradient-background_7954-25332.jpg'); relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+            <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F026.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+            <img src = "https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_12_electric.webp&w=48&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+            <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Raichu</p>
+      
+          </div> 
+        </button>
+
+
+        <button onclick="fetchData('miraidon')" type="button" class="toggle-modal">
+            <div class="pokecards" style="background-image: url('https://img.freepik.com/premium-photo/bright-yellow-gradient-background_7954-25332.jpg'); relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F1008.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+                <img src = "https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_12_electric.webp&w=48&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+                <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Miraidon</p>
+          
+              </div> 
+            </button>
+                  <!--LEGENDARY POKEMO-->
+               
+                  
+                <button onclick="fetchData('mewtwo')" type="button" class="toggle-modal">
+                    <div class="pokecards" style="background-image: url('https://img.freepik.com/free-vector/gradient-zoom-effect-background_23-2149751055.jpg'); relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                        <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F150.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+                        <img src = "https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_17_fairy.webp&w=48&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+                        <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Mewtwo</p>
+                  
+                      </div> 
+                    </button>
+
+
+                    
+                <button onclick="fetchData('arceus')" type="button" class="toggle-modal">
+                    <div class="pokecards" style="background-image: url('https://img.freepik.com/free-vector/gradient-zoom-effect-background_23-2149751055.jpg'); relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                        <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F493.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+                        <img src = "https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_17_fairy.webp&w=48&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+                        <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Arceus</p>
+                  
+                      </div> 
+                    </button>
+
+
+                    
+                <button onclick="fetchData('entei')" type="button" class="toggle-modal">
+                    <div class="pokecards" style="background-image: url('https://img.freepik.com/free-vector/gradient-zoom-effect-background_23-2149751055.jpg'); relative; width: 150px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                        <img src ="https://db.pokemongohub.net/_next/image?url=%2Fimages%2Fofficial%2Ffull%2F244.webp&w=384&q=75" style = "height: 110px; width: 110px;  ">
+                        <img src = "https://db.pokemongohub.net/_next/image?url=%2Fimages%2Ficons%2Fico_17_fairy.webp&w=48&q=75"  style = "position: absolute; height: 35px; width: 35px; right: 5px; top: 5px;  "> 
+                        <p style="font-weight: bold; color: rgb(0, 0, 0); position: absolute; bottom: 10px; left: 48%; transform: translateX(-50%); margin: 0; text-align: center;">Entei</p>
+                  
+                      </div> 
+                    </button>
+        </div>
+      
+       <!-- Main modal -->
+<div id="default-modal" tabindex="-1" class="hidden">
+    <div class="modal-content">
+        <!-- Modal header -->
+        <div class="modal-header">
+            <p id="pokeName"></p>
+            <button type="button" class="close-btn" id="close-modal">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+        </div>
+        <!-- Modal body -->
+        <div class="modal-body">
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400" id = "modaltype">
+            Type:
+            </p>
+            <br>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400" id = "modalheight">
+            Height:
+            </p>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400" id = "modalweight">
+            Weight:
+            </p>
+            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400" id = "modalabilities">
+            Abilities
+            </p>
+            <img id = "modalimg" src ="#" style = "position: absolute; top: 15px; right: 10px; height: 110px; width: 110px;  ">
+        </div>
+    </div>
+</div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const closeButton = document.getElementById('close-modal');
+            const modal = document.getElementById('default-modal');
+
+            // Event listener for all buttons with class 'toggle-modal'
+            document.querySelectorAll('.toggle-modal').forEach(button => {
+                button.addEventListener('click', function() {
+                    modal.classList.add('show');
+                });
+            });
+
+            closeButton.addEventListener('click', function() {
+                modal.classList.remove('show');
+            });
+
+            // Optionally close modal on click outside of the modal content
+            window.addEventListener('click', function(event) {
+                if (event.target === modal) {
+                    modal.classList.remove('show');
+                }
+            });
+        });
+
+        async function fetchData(pokemonName) {
+            try {
+                const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
+
+                if (!response.ok) {
+                    throw new Error("Could not fetch resource");
+                }
+
+                const data = await response.json();
+                const pokenrealName = data.name;
+                const pokemonheight = data.height;
+                const pokemonweight = data.weight;
+
+                
+                const pokemontypes = data.types.map(typeInfo => typeInfo.type.name).join(', ');
+                const pokemonabilities = data.abilities.map(typeInfo => typeInfo.ability.name).join(', ');
+
+
+                const displayname = document.getElementById("pokeName");
+                const displayweight = document.getElementById("modalweight");
+                const displayheight = document.getElementById("modalheight");
+                const displaytype = document.getElementById("modaltype");
+                const displayabilities = document.getElementById("modalabilities");
+                const displayimg = document.getElementById("modalimg");
+
+        switch (pokenrealName) {
+  case "squirtle":
+  displayimg.src="https://media.tenor.com/7c-SsbAcK9oAAAAj/pok%C3%A9mon-schildkr%C3%B6te.gif";
+    break;
+  case "wartortle":
+  displayimg.src= "https://www.shinyhunters.com/images/regular/8.gif";
+    break;
+  case "blastoise":
+  displayimg.src = "https://i.gifer.com/3qfg.gif";
+    break;
+    case "glalie":
+  displayimg.src = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/aa9d2b73-a2e7-4148-b638-2b258ffe7644/dfvlwqo-808787a3-ebcc-40ee-9237-8e6908bbd9b4.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2FhOWQyYjczLWEyZTctNDE0OC1iNjM4LTJiMjU4ZmZlNzY0NFwvZGZ2bHdxby04MDg3ODdhMy1lYmNjLTQwZWUtOTIzNy04ZTY5MDhiYmQ5YjQuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.H2nOlM9jha4D92PgdpLPuu7THWaf7X4sUayJOFkZb04";
+    break;
+    case "articuno":
+  displayimg.src = "https://i.pinimg.com/originals/f3/3d/05/f33d05ca42e5d1934b120279e1a1c12b.gif";
+    break;
+    case "abomasnow":
+  displayimg.src = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/54fbd6f3-057d-423a-8e69-91ecaf3b50dc/d7b4txn-4fc3f329-2f55-4420-a9aa-152fb03031d8.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzU0ZmJkNmYzLTA1N2QtNDIzYS04ZTY5LTkxZWNhZjNiNTBkY1wvZDdiNHR4bi00ZmMzZjMyOS0yZjU1LTQ0MjAtYTlhYS0xNTJmYjAzMDMxZDguZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.ZJkFCXUbYKSeSxcr5EgGAztM6btlRlFe1AfJcD2r_wo";
+    break;
+    case "charmander":
+  displayimg.src = "https://media.tenor.com/mh8wY4yUzIIAAAAM/pokemon-charmander.gif";
+    break;
+    case "charmeleon":
+  displayimg.src = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/9fca9fb9-582a-4d18-8d21-f28034f9b271/d5d2wo7-0f57a686-a1a2-48b2-9a71-89fab8139eb7.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzlmY2E5ZmI5LTU4MmEtNGQxOC04ZDIxLWYyODAzNGY5YjI3MVwvZDVkMndvNy0wZjU3YTY4Ni1hMWEyLTQ4YjItOWE3MS04OWZhYjgxMzllYjcuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.15nwd6gFhyxxFEprWA0Ujl5bWubPNAgB_UKS3PuDGRw";
+    break;
+    case "charizard":
+  displayimg.src = "https://www.icegif.com/wp-content/uploads/2022/05/icegif-783.gif";
+    break;
+    case "gengar":
+  displayimg.src = "https://media.tenor.com/6CJ0tDKbRKgAAAAi/pokemon-gengar.gif";
+    break;
+    case "haunter":
+  displayimg.src = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/dce29357-31f7-4a01-a737-23e473625162/d49462h-cad148b2-cc15-41dc-88bd-a0121705ae57.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2RjZTI5MzU3LTMxZjctNGEwMS1hNzM3LTIzZTQ3MzYyNTE2MlwvZDQ5NDYyaC1jYWQxNDhiMi1jYzE1LTQxZGMtODhiZC1hMDEyMTcwNWFlNTcuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.p3uszvKRYaQepDc1zptYWz8lNSBQtZZ3x_6rWas-wXY";
+    break;
+    case "nidoking":
+  displayimg.src = "https://www.shinyhunters.com/images/regular/34.gif";
+    break;
+    case "caterpie":
+  displayimg.src = "https://openseauserdata.com/files/526c636e4528d02975b8b7e88fdd0462.gif";
+    break;
+    case "bulbasaur":
+  displayimg.src = "https://static.wikia.nocookie.net/pokeone/images/9/98/001Bulbasaur.gif/revision/latest?cb=20211128040706";
+    break;
+    case "bellsprout":
+  displayimg.src = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/53ab2df3-6969-4bde-b022-d86226fc3cdc/d8s57vx-798bb606-6d04-408d-87cd-b338cd653471.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzUzYWIyZGYzLTY5NjktNGJkZS1iMDIyLWQ4NjIyNmZjM2NkY1wvZDhzNTd2eC03OThiYjYwNi02ZDA0LTQwOGQtODdjZC1iMzM4Y2Q2NTM0NzEuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.8qDmLHkuzT0u1qFC_NPbEg0A-fa3F-nuJ4cxQMDnPtY";
+    break;
+    case "pikachu":
+  displayimg.src = "https://media.tenor.com/fSsxftCb8w0AAAAi/pikachu-running.gif";
+    break;
+    case "raichu":
+  displayimg.src = "https://media.tenor.com/SbCYyNZXhhcAAAAi/raichu-happy.gif";
+    break;
+    case "miraidon":
+  displayimg.src = "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/59c40439-2cb8-4ecd-9225-ce0c136d85bf/dfir29b-89e431eb-dceb-4795-9fb1-daf563b6f7e4.gif?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzU5YzQwNDM5LTJjYjgtNGVjZC05MjI1LWNlMGMxMzZkODViZlwvZGZpcjI5Yi04OWU0MzFlYi1kY2ViLTQ3OTUtOWZiMS1kYWY1NjNiNmY3ZTQuZ2lmIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.rtlORLLvregxvNc9W_kjrYFhg3RNYSoWq3yWKEURu8A";
+    break;
+    case "mewtwo":
+  displayimg.src = "https://i.pinimg.com/originals/36/44/d4/3644d4010efa793e93a407bba8834b5c.gif";
+    break;
+    case "arceus":
+  displayimg.src = "https://pa1.aminoapps.com/6831/8792d242ed227a853f14e86a74bf82bb10856dec_00.gif";
+    break;
+    case "entei":
+  displayimg.src = "https://64.media.tumblr.com/167c5b4eaee572011d5a04bfbe28259d/tumblr_ntjri3AovZ1scncwdo1_540.gif";
+    break;
+
+ 
+                }
+               
+   
+   
+
+
+                displaytype.innerHTML = `Type: ${pokemontypes}`;
+                displayweight.innerHTML = `Weight: ${pokemonheight}`;
+                displayheight.innerHTML = `Height: ${pokemonweight}`;
+                displayabilities.innerHTML = `Abilities: ${pokemonabilities}`;
+
+                displayname.innerHTML = `Name: ${pokenrealName}`;
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>

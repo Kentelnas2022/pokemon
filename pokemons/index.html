@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@300;500&display=swap" rel="stylesheet">
+    <title>| Web Design |</title>
+    <style>
+        /* General reset and font styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        /* Body and background styling */
+        body {
+            background: url('https://i.pinimg.com/originals/ab/5f/cc/ab5fcc9dbec4abd43e5023663f2502ad.gif') no-repeat center center fixed;
+            background-size: cover;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+        }
+
+        /* Content styling */
+        .content {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .content h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        .content p {
+            font-size: 16px;
+            margin: 10px auto;
+            line-height: 1.4;
+            max-width: 90%;
+            font-weight: 300;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* Button styling */
+        button {
+            font-family: 'Montserrat', sans-serif;
+            padding: 10px 20px;
+            font-size: 14px;
+            color: #fff;
+            background: transparent;
+            border: 2px solid #49e8ff;
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 20px;
+        }
+
+        button span {
+            background-color: #49e8ff;
+            height: 100%;
+            width: 0;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            z-index: -1;
+            transition: width 0.5s;
+        }
+
+        button:hover span {
+            width: 100%;
+        }
+
+        button:hover {
+            color: #000;
+        }
+    </style>
+</head>
+<body>
+    <!-- Content section -->
+    <div class="content">
+        <h1>Welcome to Pokedex.</h1>
+        <p>Discover a world full of amazing Pokémon, catch them all, and build your ultimate team!</p>
+        <button type="button" onclick="SwitchPage()" id="start"><span></span>Start for Free</button>
+    </div>
+
+    <script>
+        function SwitchPage(){
+            window.location.href = 'jackol.html';
+        }
+    </script>
+</body>
+</html>
